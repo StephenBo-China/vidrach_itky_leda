@@ -59,7 +59,7 @@ def vidrach_itky_leda(input_file_path, output_file_path):
     if end_node not in graph:
         return -1
     else:
-        return Dijkstra(graph,start_node,INF=999)[end_node]
+        return Dijkstra(graph,start_node,INF=999999)[end_node]
 
 def get_index(node_index):
     return node_index[0],node_index[1],node_index[2],node_index[3]
