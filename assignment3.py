@@ -32,34 +32,35 @@ def change_to_index(node):
     temp = node.split(",")
     return [int(temp[0]), int(temp[1]), int(temp[2]),int(temp[3])]
 
+def get_array(input_file_path):
+    f = open(input_file_path)
+    input = f.read().split("\n")
+    n = int(input[0])
+    a = list()
+    for i in range(1, len(input)):
+        tmp = input[i]
+        tmp_a = tmp.split(",")
+        aa = list()
+        for j in range(len(tmp_a)):
+            aa.append(int(tmp_a[j]))
+        a.append(aa)
+    return a, n
+
+def write_result(rst, output_file_path):
+    with open(output_file_path, "w") as file:
+        file.write(str(rst))
+
 def vidrach_itky_leda(input_file_path, output_file_path):
-    n = 3
-    test_array = [
-#         [1, 2, 4, 3],
-#         [3, 4, 1, 2],
-#         [3, 1, 2, 3],
-#         [2, 3, 1, 2]
-        #------------------
-#         [1,1],
-#         [1,1]
-        #------------------
-#         [1,2,3],
-#         [4,5,6],
-#         [3,2,1]
-        #-------------------
-        [1,4,4],
-        [1,2,1],
-        [4,4,1]
-    ]
+    test_array, n = get_array(input_file_path)
     red_i, red_j, blue_i, blue_j = 0, 0, n - 1, n - 1
     graph = dict()
     start_node = change_to_node(red_i, red_j, blue_i, blue_j)
     end_node = change_to_node(n-1,n-1,0,0)
     create_graph(graph, start_node, test_array, n - 1)
-    if end_node not in graph:
-        return -1
-    else:
-        return Dijkstra(graph,start_node,INF=999999)[end_node]
+    rst = -1
+    if end_node in graph:
+        rst = Dijkstra(graph,start_node,INF=999999)[end_node]
+    write_result(rst, output_file_path)
 
 def get_index(node_index):
     return node_index[0],node_index[1],node_index[2],node_index[3]
@@ -129,7 +130,12 @@ def create_graph(graph, node, array, n):
         graph[node] = node_neighbors
         create_graph(graph, next_node, array, n)
 
-print(vidrach_itky_leda(1, 2))
+import time
+start_time = time.time()
+vidrach_itky_leda("./input1.in", "./input1.out")
+end_time = time.time()
+dtime = end_time - start_time
+print("The algorithm run: %.8s s" % dtime)
 
 
 
